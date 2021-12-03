@@ -2,10 +2,9 @@
 local sum = 0
 local max = math.max
 local min = math.min
-local maxint = math.maxinteger
 for line in io.lines() do
   local large = 0
-  local small = maxint
+  local small = math.huge
   for num in line:gmatch('%d+') do
     num = tonumber(num)
     large = max(large, num)

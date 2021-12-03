@@ -1,8 +1,5 @@
 #! /usr/bin/env lua
 local sum = 0
-local max = math.max
-local min = math.min
-local maxint = math.maxinteger
 for line in io.lines() do
   local row = {}
   for num in line:gmatch('%d+') do
