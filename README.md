@@ -4,7 +4,7 @@ These are my [Advent of Code][] scripts.
 
 [Advent of Code]: https://adventofcode.com/
 
-The Lua scripts are written for Lua 5.3, and take the input on stdin.
+The Lua scripts are written for Lua 5.3, and generally take the input on stdin (per-day README files will note exceptions).
 
 All input is expected to end with a newline at end of file, though all scripts should still work when that's not the case.
 
