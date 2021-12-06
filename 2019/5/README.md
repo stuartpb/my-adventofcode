@@ -1,6 +1,23 @@
-# 2019-12-05: Intcode Part 2
+# Advent of Code 2019, Day 5: Intcode II
 
-Note that, due to the introduction of a separate input stream in the Intcode computer's implementation for Part 2, the program instructions are read from a filename given in the command line arguments (using the filename 'input' by default); rather than simulate input with hardcoded instructions, we use stdin to read inputs to the Intcode program.
+https://adventofcode.com/2019/day/5
+
+## Synopsis
+
+This is a continuation of the Intcode computer from Day 2, with two new opcodes in Part 1 and four more in Part 2:
+
+- 3 (input)
+- 4 (output)
+- 5 (jump if not zero)
+- 6 (jump if zero)
+- 7 (set if less than)
+- 8 (set if equal)
+
+This also introduces "parameter" flags for each opcode, as digits before the last 2, which define "immediate mode" flags.
+
+## Run format
+
+Note that, due to the introduction of a separate input stream in the Intcode computer's implementation, the program instructions are read from a filename given in the command line arguments (using the filename 'input' by default); rather than simulate input with hardcoded instructions, we use stdin to read inputs to the Intcode program.
 
 ## Example sketch
 

@@ -1,4 +1,16 @@
-# Advent of Code 2017-12-03
+# Advent of Code 2017, Day 3: Spiral Memory
+
+https://adventofcode.com/2017/day/3
+
+## Synopsis
+
+On a spiral memory buffer:
+
+Part 1 prints the distance of a given position.
+
+Part 2 prints the sum of adjacent cells.
+
+## Artifacts
 
 A little sketch I made trying to work out the math for my constant-space Part 1 solution:
 
