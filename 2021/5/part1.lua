@@ -1,7 +1,6 @@
 #! /usr/bin/env lua
 local min = math.min
 local max = math.max
-local abs = math.abs
 local visits = {}
 local overlaps = 0
 for line in io.lines() do

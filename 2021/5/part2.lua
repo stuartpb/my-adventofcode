@@ -1,5 +1,4 @@
 #! /usr/bin/env lua
-local min = math.min
 local max = math.max
 local abs = math.abs
 local visits = {}
@@ -10,15 +9,12 @@ for line in io.lines() do
   y1 = tonumber(y1)
   x2 = tonumber(x2)
   y2 = tonumber(y2)
-  -- XXX: this causes left-low diagonal lines to be flipped
-  x1, x2 = min(x1, x2), max(x1, x2)
-  y1, y2 = min(y1, y2), max(y1, y2)
-  local vert = x1 == x2
-  local horiz = y1 == y2
-  local length = vert and y2 - y1 or x2 - x1
-  for offset = 0, length do
-    local y = horiz and y1 or y1 + offset
-    local x = vert and x1 or x1 + offset
+  local xstep = x1 == x2 and 0 or x1 > x2 and -1 or 1
+  local ystep = y1 == y2 and 0 or y1 > y2 and -1 or 1
+  local last = max(abs(x1 - x2), abs(y1 - y2))
+  for i = 0, last do
+    local x = x1 + i * xstep
+    local y = y1 + i * ystep
     local row = visits[y]
     if not row then
       row = {}
@@ -32,11 +28,3 @@ for line in io.lines() do
   end
 end
 print(overlaps)
-for y = 0,9 do
-  local row = visits[y] or {}
-  local prow = {}
-  for x = 0,9 do
-    prow[x+1] = row[x] or '.'
-  end
-  print(table.concat(prow))
-end
