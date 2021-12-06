@@ -7,7 +7,7 @@ for line in io.lines() do
   most = tonumber(most)
   local low = password:sub(least,least) == char
   local high = password:sub(most,most) == char
-  if (low or high) and not (low and high) then
+  if low ~= high then
     valid = valid + 1
   end
 end
