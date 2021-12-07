@@ -7,7 +7,7 @@ for code in io.read('a'):gmatch('%-?%d+') do
   pos = pos + 1
 end
 
-local function intcode(ram) return coroutine.wrap(function()
+local function intcode(ram) return coroutine.wrap(function(input)
   local pos = 0
   local reads = 0
   local halted
@@ -37,14 +37,14 @@ local function intcode(ram) return coroutine.wrap(function()
       ram[dest] = m * n
     end),
     [3] = deref('o', function(dest)
-      local val
-      while not val do
-        val = coroutine.yield(true)
+      while not input do
+        input = coroutine.yield()
       end
-      ram[dest] = val
+      ram[dest] = input
+      input = nil
     end),
     [4] = deref('i', function(val)
-      coroutine.yield(true, val)
+      input = coroutine.yield(val)
     end),
     [5] = deref('ii', function(cnd, dest)
       if cnd ~= 0 then return dest end
@@ -71,7 +71,7 @@ local function intcode(ram) return coroutine.wrap(function()
     end
     opcodes[opcode](modes)
   end
-  return nil, ram[0]
+  return 'halt'
 end) end
 
 local function getPermutation(digits, k)
@@ -96,21 +96,19 @@ for iteration = 1, 2*3*4*5 do
   local amplifiers = {}
   for i = 1, 5 do
     amplifiers[i] = intcode(setmetatable({},{__index = program}))
-    amplifiers[i]()
     amplifiers[i](permutation[i])
   end
   local i = 1
-  local lastOutput = {}
-  local running = true
-  while running do
-    local output
-    while not output do
-      running, output = amplifiers[i](signal)
+  local last5
+  while signal ~= 'halt' do
+    signal = amplifiers[i](signal)
+    if i == 5 and signal ~= 'halt' then
+      last5 = signal
+      i = 1
+    else
+      i = i + 1
     end
-    if running then lastOutput[i] = output end
-    signal = output
-    i = i == 5 and 1 or i + 1
   end
-  if lastOutput[5] > max then max = lastOutput[5] end
+  if last5 > max then max = last5 end
 end
 print(max)
