@@ -9,9 +9,7 @@ end
 
 local function intcode(ram) return coroutine.wrap(function(input)
   local pos = 0
-  local reads = 0
   local halted
-  local output = {}
   local function deref(inout, cb)
     return function(mode)
       local params = {}
