@@ -2,7 +2,7 @@
 local serial = tonumber(io.read())
 local fuel = {}
 for y = 1, 300 do
-  row = {}
+  local row = {}
   fuel[y] = row
   for x = 1, 300 do
     local rack = x + 10

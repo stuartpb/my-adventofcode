@@ -1,37 +1,29 @@
 #! /usr/bin/env lua
 local serial = tonumber(io.read())
 local fuel = {}
-local squares = {}
 for y = 1, 300 do
-  row = {}
+  local row = {}
   fuel[y] = row
-  sqrow = {}
-  squares[y] = sqrow
+  local above = fuel[y-1] or {}
   for x = 1, 300 do
     local rack = x + 10
-    row[x] = (rack * y + serial) * rack // 100 % 10 - 5
-    sqrow[x] = 0
+    row[x] = (rack * y + serial) * rack // 100 % 10 - 5 +
+      (row[x-1] or 0) + (above[x] or 0) - (above[x-1] or 0)
   end
 end
 local largest = -math.huge
 local top, left, large
 for size = 1, 300 do
-  for y = 1, 301 - size do
-    local sqrow = squares[y]
-    local rows = {}
-    for i = 0, size - 1 do
-      rows[i+1] = fuel[y+i]
-    end
-    for x = 1, 301 - size do
-      local square = sqrow[x] + rows[size][x + size - 1]
-      for i = 0, size - 2 do
-        square = square + rows[i+1][x + size - 1] + rows[size][x+i]
-      end
-      sqrow[x] = square
+  for y = size, 300 do
+    local bottom = fuel[y]
+    local topedge = fuel[y-size] or {}
+    for x = size, 300 do
+      local square = bottom[x] - (topedge[x] or 0) -
+        (bottom[x-size] or 0) + (topedge[x-size] or 0)
       if square > largest then
         largest = square
-        top = y
-        left = x
+        top = y - size + 1
+        left = x - size + 1
         large = size
       end
     end
