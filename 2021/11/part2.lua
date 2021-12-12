@@ -21,8 +21,10 @@ for line in io.lines() do
     row[i] = tonumber(c)
   end
 end
-local flashes = 0
-for step = 1, 100 do
+local everybody
+local step = 0
+while not everybody do
+  step = step + 1
   local flashing
   for y, row in pairs(grid) do
     for x, here in pairs(row) do
@@ -32,16 +34,18 @@ for step = 1, 100 do
   end
   while flashing do
     flashing = nil
+    everybody = true
     for y, row in pairs(grid) do
       for x, here in pairs(row) do
-        if here > 9 then 
+        if here > 9 then
           row[x] = 0
           flashat(x,y)
-          flashes = flashes + 1
           flashing = true
+        elseif here > 0 then
+          everybody = nil
         end
       end
     end
   end
 end
-print(flashes)
+print(step)
